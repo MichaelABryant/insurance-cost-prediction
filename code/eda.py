@@ -23,4 +23,5 @@ for i in df.columns:
         plt.savefig('../output/eda/barplot_{}.jpg'.format(i), bbox_inches='tight')
         plt.show()
         
-categorical = []
+categorical = ['sex', 'children', 'smoker', 'region']
+
