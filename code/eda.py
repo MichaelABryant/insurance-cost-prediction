@@ -18,6 +18,7 @@ for i in df.columns:
     else:
         ax = sns.barplot(x=df[i].value_counts().index, y=df[i].value_counts().values)
         ax.grid(False)
+        plt.xlabel(i)
         plt.ylabel('Count')
         plt.savefig('../output/eda/barplot_{}.jpg'.format(i), bbox_inches='tight')
         plt.show()
