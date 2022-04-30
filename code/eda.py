@@ -24,4 +24,34 @@ for i in df.columns:
         plt.show()
         
 categorical = ['sex', 'children', 'smoker', 'region']
+numerical = ['age', 'bmi', 'charges']
 
+corr = df[numerical].corr()
+f, ax = plt.subplots(figsize=(12, 10))
+sns.heatmap(corr, annot=True)
+plt.savefig('../output/eda/correlation_heatmap.jpg', bbox_inches='tight')
+plt.show()
+
+charges_binned = []
+for idx, val in enumerate(df['charges']):
+    if val < 10000:
+        charges_binned.append('1000 > charge')
+    elif (val >=10000) and (val < 20000):
+        charges_binned.append('10000 <= charge < 20000')
+    elif (val >=20000) and (val < 30000):
+        charges_binned.append('20000 <= charge < 30000')
+    elif (val >=30000) and (val < 40000):
+        charges_binned.append('30000 <= charge < 40000')
+    else:
+        charges_binned.append('charge > 40000')
+
+df['charges_binned'] = charges_binned       
+g = sns.pairplot(df.loc[:,df.columns != 'charges'].sort_values(['charges_binned']),
+                  hue='charges_binned')
+for ax in g.axes.flatten():
+    ax.grid(False)
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+g.legend.set_title(None)
+plt.savefig('../output/eda/pairplot.jpg', bbox_inches='tight')
+plt.show()
