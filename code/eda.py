@@ -34,20 +34,26 @@ plt.show()
 
 charges_binned = []
 for idx, val in enumerate(df['charges']):
-    if val < 10000:
-        charges_binned.append('1000 > charge')
+    if val < 2500:
+        charges_binned.append('charges < \$2,500')
+    elif (val >=2500) and (val < 7500):
+        charges_binned.append('\$2,500 <= charges < \$7,500')
+    elif (val >=7500) and (val < 10000):
+        charges_binned.append('\$7,500 <= charges < \$10,000')
     elif (val >=10000) and (val < 20000):
-        charges_binned.append('10000 <= charge < 20000')
-    elif (val >=20000) and (val < 30000):
-        charges_binned.append('20000 <= charge < 30000')
-    elif (val >=30000) and (val < 40000):
-        charges_binned.append('30000 <= charge < 40000')
+        charges_binned.append('\$10,000 <= charges < \$20,000')
     else:
-        charges_binned.append('charge > 40000')
+        charges_binned.append('charges > \$20,000')
 
 df['charges_binned'] = charges_binned       
-g = sns.pairplot(df.loc[:,df.columns != 'charges'].sort_values(['charges_binned']),
-                  hue='charges_binned')
+g = sns.pairplot(df.loc[:,df.columns != 'charges'],
+                  hue='charges_binned',
+                  hue_order = ['charges < \$2,500',
+                               '\$2,500 <= charges < \$7,500',
+                               '\$7,500 <= charges < \$10,000',
+                               '\$10,000 <= charges < \$20,000',
+                               'charges > \$20,000'
+                               ])
 for ax in g.axes.flatten():
     ax.grid(False)
     ax.spines['right'].set_visible(True)
